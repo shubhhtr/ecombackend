@@ -49,7 +49,37 @@ app.get("/get-pro", async (req,resp)=>{
     else{
         resp.send({result:"No products found"});
     }
+});
 
+app.delete("/product/:id",async (req,resp)=>{
+    //const result=req.params;
+    const result=await Product.deleteOne({_id:req.params.id});
+    if(result){
+        resp.send(result);
+    }
+    else{
+        resp.send({result:"Item not found"});
+    }
+});
+
+app.get("/product/:id", async (req,resp)=>{
+    const result=await Product.findOne({_id:req.params.id});
+    if(result){
+        resp.send(result);
+    }
+    else{
+        resp.send({result:"No such record found"});
+    }
+});
+
+app.put("/product/:id", async (req,resp)=>{
+    let result=await Product.updateOne(
+        {_id:req.params.id},
+        {
+            $set:req.body
+        }
+    );
+    resp.send(result);
 });
 
 app.listen(5000);
