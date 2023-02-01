@@ -41,4 +41,15 @@ app.post("/add-pro", async (req,resp)=>{
 
 });
 
+app.get("/get-pro", async (req,resp)=>{
+    let result=await Product.find();
+    if(result.length > 0){
+        resp.send(result);
+    }
+    else{
+        resp.send({result:"No products found"});
+    }
+
+});
+
 app.listen(5000);
